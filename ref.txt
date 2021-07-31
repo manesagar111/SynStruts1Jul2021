@@ -1,0 +1,4 @@
+Design Patterns
+  https://www.oracle.com/technical-resources/articles/java/java-se-app-design-with-mvc.html
+  https://www.oracle.com/java/technologies/front-controller.html
+  
