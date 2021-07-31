@@ -1,0 +1,11 @@
+Lab 1 - 
+	Eclipse -> 
+		preference -> set path to jdk (not jre)
+		server -> tomcat
+	
+		new Dynamic web project (deploy to tomcat)
+			generate web.xml
+		in webapp create index.jsp page
+		and add 
+			<h1><%= new Date() %></h1>
+		run on server -> check 
