@@ -1,3 +1,159 @@
+Lab 2 - Lab 2 - 
+	Eclipse -> New Maven Project
+		Create a simple project
+		name -> Day1.demo1
+		packaging -> war
+	
+	modify pom.xml to include
+		<dependencies>
+			<!-- https://mvnrepository.com/artifact/struts/struts -->
+			<dependency>
+				<groupId>struts</groupId>
+				<artifactId>struts</artifactId>
+				<version>1.2.9</version>
+			</dependency>
+		</dependencies>
+	
+	create web.xml 
+		create WEB-INF folder in webapp
+		create web.xml in WEB-INF
+			<?xml version="1.0" encoding="UTF-8"?>
+			<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+				xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+				id="WebApp_ID" version="4.0">
+				<servlet>
+					<servlet-name>aa</servlet-name>
+					<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+					<init-param>
+						<param-name>config</param-name>
+						<param-value>/WEB-INF/struts-config.xml</param-value>
+					</init-param>
+					<load-on-startup>1</load-on-startup>
+				</servlet>
+				<servlet-mapping>
+					<servlet-name>aa</servlet-name>
+					<url-pattern>*.do</url-pattern>
+				</servlet-mapping>
+
+			</web-app>
+
+		create struts-config.xml in WEB-INF
+			<?xml version="1.0" encoding="UTF-8"?>
+			<!DOCTYPE struts-config PUBLIC
+			"-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+			"http://struts.apache.org/dtds/struts-config_1_3.dtd">
+					   
+			<struts-config>
+				<form-beans>      
+					<form-bean name="loginForm" type="demo.LoginForm"/>
+				</form-beans>
+				<action-mappings>
+					<action name="loginForm" path="/login" type="demo.LoginAction" scope="request" input="/login.jsp">
+						<forward name="failure" path="/login.jsp" redirect="true"/>
+						<forward name="success" path="/success.jsp" redirect="true"/>
+					</action>
+				</action-mappings>
+			</struts-config>
+
+	Create a class demo.LoginAction
+		package demo;
+
+		import javax.servlet.http.HttpServletRequest;
+		import javax.servlet.http.HttpServletResponse;
+
+		import org.apache.struts.action.Action;
+		import org.apache.struts.action.ActionForm;
+		import org.apache.struts.action.ActionForward;
+		import org.apache.struts.action.ActionMapping;
+
+
+		public class LoginAction extends Action {
+		   @Override
+		   public ActionForward execute(ActionMapping mapping, ActionForm form,
+				   HttpServletRequest request, HttpServletResponse response)
+				   throws Exception {
+			   LoginForm loginForm = (LoginForm) form;
+
+			   if (loginForm.getUserName() == null || loginForm.getPassword() == null
+					   || !loginForm.getUserName().equalsIgnoreCase("Mukesh")
+					   || !loginForm.getPassword().equals("kumar")) {
+				   System.out.println("current login "+ loginForm.getUserName()+"  "+loginForm.getPassword());
+				   return mapping.findForward("success");
+			   } else
+				   return mapping.findForward("failure");
+		   }
+
+		}
+
+	Create a class demo.LoginForm
+		package demo;
+
+		import org.apache.struts.action.ActionForm;
+		 
+		public class LoginForm extends ActionForm {
+		 
+			private String userName = null;
+			private String password = null;
+		 
+			public String getUserName() {
+				return userName;
+			}
+		 
+			public void setUserName(String userName) {
+				this.userName = userName;
+			}
+		 
+			public String getPassword() {
+				return password;
+			}
+		 
+			public void setPassword(String password) {
+				this.password = password;
+			}
+		 /*
+			@Override
+			public void reset(ActionMapping mapping, HttpServletRequest request) {
+				this.password = null;
+			} */
+		 
+		}
+
+	create a jsp page login.jsp(in webapp)
+		<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+		<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
+		<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Login Example</title>
+		</head>
+		<body>
+			<html:form action="/login" focus="userName">
+			Username : <html:text property="userName" />
+				<br>
+			Password : <html:password property="password" />
+				<br>
+				<html:submit value="login" />
+			</html:form>
+		 
+		</body>
+		</html>
+	create a jsp page success.jsp(in webapp)
+		<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+		<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Successful Login Page</title>
+		</head>
+		<body>
+			<h2>Welcome !!!!</h2>
+		</body>
+		</html>
+
+--------------------------------------
 Lab 1 - 
 	Eclipse -> 
 		preference -> set path to jdk (not jre)
